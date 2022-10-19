@@ -7,6 +7,13 @@ from content import content
 # consts
 lang = 'en'
 
+# page info
+st.set_page_config(
+    layout="centered",
+    page_title=content['page_title'][lang],
+    page_icon=":cloud:"
+)
+
 # read data
 df = pd.read_csv('data/sample.csv')
 
