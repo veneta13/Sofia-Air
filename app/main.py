@@ -3,7 +3,7 @@ import streamlit as st
 import pandas as pd
 
 # read data
-df = pd.read_csv('data/Archive_Sofia_stations_processed.csv')
+df = pd.read_csv('data/sample.csv')
 
 # get stations
 stations = df['station_name'].unique()
