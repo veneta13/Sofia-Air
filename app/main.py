@@ -1,6 +1,7 @@
 # imports
 import streamlit as st
 import pandas as pd
+import utils
 
 # read data
 df = pd.read_csv('data/sample.csv')
