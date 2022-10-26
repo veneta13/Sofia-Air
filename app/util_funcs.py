@@ -1,3 +1,5 @@
+import json
+
 import pandas as pd
 import streamlit as st
 
@@ -8,6 +10,12 @@ def load_data():
         'data/Archive_Sofia_stations_processed.csv',
         nrows=10000
     )
+
+
+@st.experimental_singleton
+def load_content():
+    with open('res/content.json', encoding="utf8") as json_file:
+        return json.load(json_file)
 
 
 def read_data():

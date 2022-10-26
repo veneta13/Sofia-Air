@@ -1,9 +1,15 @@
 # imports
 import streamlit as st
 import util_funcs
-from content import content
 
 con = None
+
+# page info
+st.set_page_config(
+    layout='centered',
+    page_title='Sofia Air',
+    page_icon=':cloud:'
+)
 
 
 def form_callback():
@@ -15,15 +21,9 @@ def form_callback():
 
 
 def main():
-    # consts
-    lang = 'en'
+    st.session_state.lang = 'en'
 
-    # page info
-    st.set_page_config(
-        layout="centered",
-        page_title=content['page_title'][lang],
-        page_icon=":cloud:"
-    )
+    content = util_funcs.load_content()
 
     # load initial data
     st.session_state['df'] = util_funcs.read_data()
@@ -43,7 +43,7 @@ def main():
     with st.form(key='map_properties'):
 
         st.multiselect(
-            content['ams_selector'][lang],
+            content['ams_selector'][st.session_state.lang],
             options=stations,
             default=stations[0],
             key='station_selector'
