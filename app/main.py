@@ -13,11 +13,7 @@ st.set_page_config(
 
 
 def form_callback():
-    print(st.session_state)
-    st.session_state['df'] = util_funcs.show_by_location(
-        st.session_state['df'],
-        st.session_state['station_selector']
-    )
+    st.session_state.reload = not st.session_state.reload
 
 
 def main():
@@ -31,27 +27,37 @@ def main():
     # get selector data
     stations = st.session_state['df']['station_name'].unique()
 
-    if 'FormSubmitter:map_properties-Get information' not in st.session_state:
-        st.session_state.click = False
+    if 'reload' not in st.session_state:
         util_funcs.map(st.session_state['df'], stations, None)
+        st.session_state.reload = False
     else:
-        if st.session_state['FormSubmitter:map_properties-Get information'] == False:
+        if st.session_state.reload:
+            st.session_state.update({
+                'df': util_funcs.show_by_location(
+                    st.session_state['df'],
+                    st.session_state['station_selector']
+                )
+            })
             util_funcs.map(st.session_state['df'], stations, None)
         else:
+            st.session_state.update({
+                'df': util_funcs.show_by_location(
+                    st.session_state['df'],
+                    st.session_state['station_selector']
+                )
+            })
             util_funcs.map(st.session_state['df'], stations, None)
 
     with st.form(key='map_properties'):
-
         st.multiselect(
             content['ams_selector'][st.session_state.lang],
             options=stations,
             default=stations[0],
             key='station_selector'
         )
-
         submit_button = st.form_submit_button(
             label='Get information',
-            on_click=form_callback()
+            on_click=form_callback
         )
 
 
