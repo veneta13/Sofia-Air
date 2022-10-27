@@ -22,13 +22,19 @@ def read_data():
     return load_data()
 
 
+def min_max_date(df):
+    return (df["timest"].min(), df["timest"].max())
+
+
 def show_by_location(df, locations):
     return df[df['station_name'].apply(lambda x: x in locations)]
 
 
-def show_by_time(df, time):
-    # print(datetime.fromisoformat(df.iloc[0]['timest']))
-    pass
+def show_by_time(df, start_date, end_date):
+    return df[
+        (df['timest'] >= start_date) & \
+        (df['timest'] <= end_date)
+    ]
 
 
 def map(df, stations, time):
