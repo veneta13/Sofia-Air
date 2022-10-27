@@ -34,7 +34,7 @@ def show_by_time(df, start_date, end_date):
     return df[
         (df['timest'] >= start_date) & \
         (df['timest'] <= end_date)
-    ]
+        ]
 
 
 def map(df, stations, time):
