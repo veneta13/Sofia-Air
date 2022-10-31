@@ -32,6 +32,7 @@ def main():
         st.session_state['min_max_date'][1]).date()
 
     stations = st.session_state['df']['station_name'].unique()
+    metrics = st.session_state['df']['param_name'].unique()
 
     if 'station_selector' not in st.session_state:
         util_funcs.map(st.session_state['df'], stations, None)
@@ -56,6 +57,12 @@ def main():
             options=stations,
             default=stations,
             key='station_selector'
+        )
+
+        st.selectbox(
+            'Select metric',
+            options=metrics,
+            key='metric_selector'
         )
 
         slider = st.slider(
