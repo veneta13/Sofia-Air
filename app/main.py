@@ -15,40 +15,42 @@ st.set_page_config(
 
 
 def form_callback():
-    st.session_state.reload = not st.session_state.reload
+    pass
 
 
 def main():
-    content = util_funcs.load_content()
-
     st.session_state.lang = 'en'
     st.session_state['df'] = util_funcs.read_data()
-    st.session_state['min_max_date'] = util_funcs.min_max_date(st.session_state['df'])
+    min_max_date = util_funcs.min_max_date(st.session_state['df'])
 
     format = 'DD.MM.YYYY'
-    start_date = datetime.datetime.fromisoformat(
-        st.session_state['min_max_date'][0]).date()
-    end_date = datetime.datetime.fromisoformat(
-        st.session_state['min_max_date'][1]).date()
+    st.session_state['min_max_date_df'] = []
+    st.session_state['min_max_date_df'].append(
+        datetime.datetime.fromisoformat(min_max_date[0]).date()
+    )
+    st.session_state['min_max_date_df'].append(
+        datetime.datetime.fromisoformat(min_max_date[1]).date()
+    )
+
+    content = util_funcs.load_content()
 
     stations = st.session_state['df']['station_name'].unique()
     metrics = st.session_state['df']['param_name'].unique()
 
     if 'station_selector' not in st.session_state:
         util_funcs.map(st.session_state['df'], stations, None)
-        st.session_state.reload = False
     else:
-        st.session_state.update({
-            'df':
-                util_funcs.show_by_time(
+        if 'date_slider' in st.session_state:
+            st.session_state.update({
+                'df': util_funcs.show_by_time(
                     util_funcs.show_by_location(
                         st.session_state['df'],
                         st.session_state['station_selector']
                     ),
-                    st.session_state['min_max_date'][0],
-                    st.session_state['min_max_date'][1]
-                )
-        })
+                    st.session_state['date_slider'][0],
+                    st.session_state['date_slider'][1]
+                ),
+            })
         util_funcs.map(st.session_state['df'], stations, None)
 
     with st.form(key='map_properties'):
@@ -65,12 +67,16 @@ def main():
             key='metric_selector'
         )
 
-        slider = st.slider(
+        st.slider(
             'Select date',
-            min_value=start_date,
-            value=(start_date, end_date),
-            max_value=end_date,
-            format=format
+            min_value=st.session_state['min_max_date_df'][0],
+            max_value=st.session_state['min_max_date_df'][1],
+            value=(
+                st.session_state['min_max_date_df'][0],
+                st.session_state['min_max_date_df'][1],
+            ),
+            format=format,
+            key='date_slider'
         )
 
         submit_button = st.form_submit_button(

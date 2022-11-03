@@ -31,10 +31,29 @@ def show_by_location(df, locations):
 
 
 def show_by_time(df, start_date, end_date):
+    format = '%Y-%m-%d %H:%M:%S'
+
+    print(f'start {start_date}')
+
+    df['timest'] = pd.to_datetime(
+        df['timest'],
+        format=format
+    )
+
+    start_date = pd.to_datetime(
+        start_date,
+        format=format
+    )
+
+    end_date = pd.to_datetime(
+        end_date,
+        format=format
+    )
+
     return df[
         (df['timest'] >= start_date) & \
         (df['timest'] <= end_date)
-        ]
+    ]
 
 
 def map(df, stations, time):
