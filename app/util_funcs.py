@@ -1,4 +1,5 @@
 import json
+from statistics import mean
 
 import folium
 import pandas as pd
@@ -7,10 +8,21 @@ import streamlit as st
 
 @st.experimental_singleton
 def load_data():
-    return pd.read_csv(
+    df = pd.read_csv(
         'data/Archive_Sofia_stations_processed.csv',
         nrows=10000
     )
+    df['timest'] = df['timest'].apply(lambda x: x.split(' ')[0])
+    grouped_df = df.groupby(
+        ['timest', 'station', 'param']).agg(
+        {
+            'longitude': 'first',
+            'latitude': 'first',
+            'station_name': 'first',
+            'param_name': 'first',
+            'level': mean,
+        })
+    return grouped_df.reset_index()
 
 
 @st.experimental_singleton
@@ -36,7 +48,7 @@ def show_by_metric(df, metric):
 
 
 def show_by_time(df, start_date, end_date):
-    format = '%Y-%m-%d %H:%M:%S'
+    format = '%Y-%m-%d'
 
     df['timest'] = pd.to_datetime(
         df['timest'],
