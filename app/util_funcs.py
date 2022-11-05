@@ -30,6 +30,10 @@ def show_by_location(df, locations):
     return df[df['station_name'].apply(lambda x: x in locations)]
 
 
+def show_by_metric(df, metric):
+    return df[df['param_name'] == metric]
+
+
 def show_by_time(df, start_date, end_date):
     format = '%Y-%m-%d %H:%M:%S'
 
@@ -51,7 +55,7 @@ def show_by_time(df, start_date, end_date):
     df = df[
         (df['timest'] >= start_date) & \
         (df['timest'] <= end_date)
-    ]
+        ]
 
     return df
 
