@@ -34,6 +34,7 @@ def main():
     )
 
     content = util_funcs.load_content()
+    levels = util_funcs.load_levels()
 
     stations = st.session_state['df']['station_name'].unique()
     metrics = st.session_state['df']['param_name'].unique()
@@ -72,9 +73,14 @@ def main():
                 ],
                 popup=row['level'],
                 tooltip='<h5>Click here</h5>',
-                icon=util_funcs.get_icon(0.8, 1),
+                icon=util_funcs.get_icon(
+                    row['level'],
+                    levels,
+                    st.session_state['metric_selector']
+                ),
             ).add_to(st.session_state['map']),
             axis=1)
+
         st_folium(st.session_state['map'], width=725)
 
     with st.form(key='map_properties'):

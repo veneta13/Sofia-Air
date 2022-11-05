@@ -31,6 +31,12 @@ def load_content():
         return json.load(json_file)
 
 
+@st.experimental_singleton
+def load_levels():
+    with open('res/levels.json', encoding="utf8") as json_file:
+        return json.load(json_file)
+
+
 def read_data():
     return load_data()
 
@@ -77,16 +83,19 @@ def map(df, stations, time):
     return st.map(show_by_location(df, stations))
 
 
-def get_icon(level, regulation):
-    color = ''
-    value = level / regulation
+def get_icon(level, regulations_all, type):
+    color = 'lightblue'
 
-    if value < .70:
-        color = 'lightblue'
-    elif value < 0.99:
-        color = 'orange'
-    else:
-        color = 'red'
+    if type in regulations_all:
+        regulation = regulations_all[type]
+        value = level / regulation
+
+        if value < .70:
+            color = 'lightblue'
+        elif value < 0.99:
+            color = 'orange'
+        else:
+            color = 'red'
 
     return folium.Icon(
         icon='cloud',
