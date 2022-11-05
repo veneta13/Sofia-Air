@@ -1,5 +1,6 @@
 import json
 
+import folium
 import pandas as pd
 import streamlit as st
 
@@ -62,3 +63,21 @@ def show_by_time(df, start_date, end_date):
 
 def map(df, stations, time):
     return st.map(show_by_location(df, stations))
+
+
+def get_icon(level, regulation):
+    color = ''
+    value = level / regulation
+
+    if value < .70:
+        color = 'lightblue'
+    elif value < 0.99:
+        color = 'orange'
+    else:
+        color = 'red'
+
+    return folium.Icon(
+        icon='cloud',
+        color=color,
+        icon_color='white'
+    )

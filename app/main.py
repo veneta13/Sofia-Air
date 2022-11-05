@@ -1,7 +1,9 @@
 import datetime
 
+import folium
 import streamlit as st
 import util_funcs
+from streamlit_folium import st_folium
 
 con = None
 
@@ -36,8 +38,16 @@ def main():
     stations = st.session_state['df']['station_name'].unique()
     metrics = st.session_state['df']['param_name'].unique()
 
+    st.session_state['map'] = folium.Map(
+        location=[
+            st.session_state['df']['latitude'].mean(),
+            st.session_state['df']['longitude'].mean()
+        ],
+        zoom_start=13
+    )
+
     if 'station_selector' not in st.session_state:
-        util_funcs.map(st.session_state['df'], stations, None)
+        st_folium(st.session_state['map'], width=725)
     else:
         if 'date_slider' in st.session_state:
             st.session_state.update({
@@ -53,7 +63,19 @@ def main():
                         ),
                         st.session_state['metric_selector']),
             })
-        util_funcs.map(st.session_state['df'], stations, None)
+
+        st.session_state['df'].apply(
+            lambda row: folium.Marker(
+                location=[
+                    row['latitude'],
+                    row['longitude']
+                ],
+                popup=row['level'],
+                tooltip='<h5>Click here</h5>',
+                icon=util_funcs.get_icon(0.8, 1),
+            ).add_to(st.session_state['map']),
+            axis=1)
+        st_folium(st.session_state['map'], width=725)
 
     with st.form(key='map_properties'):
         st.multiselect(
