@@ -1,4 +1,3 @@
-# imports
 import datetime
 
 import streamlit as st
@@ -42,14 +41,17 @@ def main():
     else:
         if 'date_slider' in st.session_state:
             st.session_state.update({
-                'df': util_funcs.show_by_time(
-                    util_funcs.show_by_location(
-                        st.session_state['df'],
-                        st.session_state['station_selector']
-                    ),
-                    st.session_state['date_slider'][0],
-                    st.session_state['date_slider'][1]
-                ),
+                'df':
+                    util_funcs.show_by_metric(
+                        util_funcs.show_by_time(
+                            util_funcs.show_by_location(
+                                st.session_state['df'],
+                                st.session_state['station_selector']
+                            ),
+                            st.session_state['date_slider'][0],
+                            st.session_state['date_slider'][1]
+                        ),
+                        st.session_state['metric_selector']),
             })
         util_funcs.map(st.session_state['df'], stations, None)
 
