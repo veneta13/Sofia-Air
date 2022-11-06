@@ -1,3 +1,26 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b93956e1b07984c1dce6f6c535a1b2846c68d26c1abe7ac5697acfbf49df6185
-size 253
+{
+  "page_title": {
+    "bg": "Sofia Air",
+    "en": "Sofia Air"
+  },
+  "ams_selector": {
+    "bg": "Изберете станции, за които да се показва замерването",
+    "en": "Select AMS stations"
+  },
+  "metric_selector": {
+    "bg": "Изберете показател",
+    "en": "Select metric"
+  },
+  "date_selector": {
+    "bg": "Изберете времеви период",
+    "en": "Select date"
+  },
+  "submit_button": {
+    "bg": "Покажи",
+    "en": "Show"
+  },
+  "click_message": {
+    "bg": "Покажи точна стойност",
+    "en": "Show more information"
+  }
+}

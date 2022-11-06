@@ -20,7 +20,7 @@ def form_callback():
 
 
 def main():
-    st.session_state.lang = 'en'
+    st.session_state.lang = 'bg'
     st.session_state['df'] = util_funcs.read_data()
     min_max_date = util_funcs.min_max_date(st.session_state['df'])
 
@@ -72,7 +72,7 @@ def main():
                     row['longitude']
                 ],
                 popup=row['level'],
-                tooltip='<h5>Click here</h5>',
+                tooltip=content['click_message'][st.session_state.lang],
                 icon=util_funcs.get_icon(
                     row['level'],
                     levels,
@@ -92,13 +92,13 @@ def main():
         )
 
         st.selectbox(
-            'Select metric',
+            content['metric_selector'][st.session_state.lang],
             options=metrics,
             key='metric_selector'
         )
 
         st.slider(
-            'Select date',
+            content['date_selector'][st.session_state.lang],
             min_value=st.session_state['min_max_date_df'][0],
             max_value=st.session_state['min_max_date_df'][1],
             value=(
@@ -110,7 +110,7 @@ def main():
         )
 
         submit_button = st.form_submit_button(
-            label='Get information',
+            content['submit_button'][st.session_state.lang],
             on_click=form_callback
         )
 
