@@ -47,6 +47,8 @@ def main():
         zoom_start=13
     )
 
+    st.title( content['page_title'][st.session_state.lang])
+
     if 'station_selector' not in st.session_state:
         st_folium(st.session_state['map'], width=725)
     else:
