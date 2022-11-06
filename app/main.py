@@ -62,8 +62,7 @@ def main():
                                 st.session_state['df'],
                                 st.session_state['station_selector']
                             ),
-                            st.session_state['date_slider'][0],
-                            st.session_state['date_slider'][1]
+                            st.session_state['date_slider']
                         ),
                         st.session_state['metric_selector']),
             })
@@ -104,10 +103,7 @@ def main():
             content['date_selector'][st.session_state.lang],
             min_value=st.session_state['min_max_date_df'][0],
             max_value=st.session_state['min_max_date_df'][1],
-            value=(
-                st.session_state['min_max_date_df'][0],
-                st.session_state['min_max_date_df'][1],
-            ),
+            value=st.session_state['min_max_date_df'][0],
             format=format,
             key='date_slider'
         )
