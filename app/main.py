@@ -9,7 +9,7 @@ con = None
 
 # page info
 st.set_page_config(
-    layout='centered',
+    layout='wide',
     page_title='Sofia Air',
     page_icon=':cloud:'
 )
@@ -47,10 +47,11 @@ def main():
         zoom_start=13
     )
 
-    st.title( content['page_title'][st.session_state.lang])
+    st.title(content['page_title'][st.session_state.lang])
 
     if 'station_selector' not in st.session_state:
-        st_folium(st.session_state['map'], width=725)
+        st_folium(st.session_state['map'], width=1100)
+
     else:
         if 'date_slider' in st.session_state:
             st.session_state.update({
@@ -83,7 +84,7 @@ def main():
             ).add_to(st.session_state['map']),
             axis=1)
 
-        st_folium(st.session_state['map'], width=725)
+        st_folium(st.session_state['map'], width=1100)
 
     with st.form(key='map_properties'):
         st.multiselect(
