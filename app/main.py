@@ -51,7 +51,6 @@ def main():
 
     if 'station_selector' not in st.session_state:
         st_folium(st.session_state['map'], width=1100)
-
     else:
         if 'date_slider' in st.session_state:
             st.session_state.update({
@@ -66,7 +65,6 @@ def main():
                         ),
                         st.session_state['metric_selector']),
             })
-
         st.session_state['df'].apply(
             lambda row: folium.Marker(
                 location=[
@@ -85,7 +83,25 @@ def main():
 
         st_folium(st.session_state['map'], width=1100)
 
+    with st.sidebar:
+        col1, col2 = st.columns([1, 3])
+        with col1:
+            st.button(
+                label='EN',
+                key='en'
+            )
+        with col2:
+            st.button(
+                label='BG',
+                key='bg'
+            )
+
     with st.form(key='map_properties'):
+        if st.session_state.en:
+            st.session_state.lang = 'en'
+        else:
+            st.session_state.lang = 'bg'
+
         st.multiselect(
             content['ams_selector'][st.session_state.lang],
             options=stations,
