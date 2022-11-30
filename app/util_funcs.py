@@ -53,20 +53,36 @@ def show_by_metric(df, metric):
     return df[df['param_name'] == metric]
 
 
-def show_by_time(df, date):
+def show_by_time(df, start_date, end_date=None):
     format = '%Y-%m-%d'
 
-    df['timest'] = pd.to_datetime(
-        df['timest'],
-        format=format
-    )
+    if not end_date:
+        df['timest'] = pd.to_datetime(
+            df['timest'],
+            format=format
+        )
 
-    date = pd.to_datetime(
-        date,
-        format=format
-    )
+        start_date = pd.to_datetime(
+            start_date,
+            format=format
+        )
 
-    df = df[df['timest'] == date]
+        df = df[df['timest'] == start_date]
+    else:
+        start_date = pd.to_datetime(
+            start_date,
+            format=format
+        )
+
+        end_date = pd.to_datetime(
+            end_date,
+            format=format
+        )
+
+        df = df[
+            (df['timest'] >= start_date) & \
+            (df['timest'] <= end_date)
+            ]
 
     return df
 
