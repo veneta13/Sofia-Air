@@ -5,8 +5,6 @@ import streamlit as st
 import util_funcs
 from streamlit_folium import st_folium
 
-con = None
-
 # page info
 st.set_page_config(
     layout='wide',
