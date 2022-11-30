@@ -95,11 +95,12 @@ with st.sidebar:
             key='bg'
         )
 
+if st.session_state.en:
+    st.session_state.lang = 'en'
+else:
+    st.session_state.lang = 'bg'
+
 with st.form(key='map_properties'):
-    if st.session_state.en:
-        st.session_state.lang = 'en'
-    else:
-        st.session_state.lang = 'bg'
 
     st.multiselect(
         content['ams_selector'][st.session_state.lang],
