@@ -14,11 +14,6 @@ st.set_page_config(
     page_icon=':cloud:',
 )
 
-
-def form_callback():
-    pass
-
-
 st.session_state.lang = 'bg'
 st.session_state['df'] = util_funcs.read_data()
 min_max_date = util_funcs.min_max_date(st.session_state['df'])
@@ -101,7 +96,6 @@ else:
     st.session_state.lang = 'bg'
 
 with st.form(key='map_properties'):
-
     st.multiselect(
         content['ams_selector'][st.session_state.lang],
         options=stations,
@@ -126,5 +120,5 @@ with st.form(key='map_properties'):
 
     submit_button = st.form_submit_button(
         content['submit_button'][st.session_state.lang],
-        on_click=form_callback
+        on_click=(lambda: None)
     )
