@@ -33,6 +33,28 @@ content = util_funcs.load_content()
 stations = st.session_state['df']['station_name'].unique()
 metrics = st.session_state['df']['param_name'].unique()
 
+################### SIDEBAR #########################
+with st.sidebar:
+    col1, col2 = st.columns([1, 3])
+    with col1:
+        st.button(
+            label='EN',
+            key='en'
+        )
+    with col2:
+        st.button(
+            label='BG',
+            key='bg'
+        )
+
+################### LANGUAGE #########################
+if st.session_state.en:
+    st.session_state.lang = 'en'
+else:
+    st.session_state.lang = 'bg'
+
+################### UPDATE DATA ######################
+
 if 'date_slider_mark_circle' in st.session_state:
     st.session_state.update({
         'df_mark_circle':
@@ -158,23 +180,3 @@ with st.form(key='mark_area'):
         content['submit_button'][st.session_state.lang],
         on_click=(lambda: None)
     )
-
-################### SIDEBAR #########################
-with st.sidebar:
-    col1, col2 = st.columns([1, 3])
-    with col1:
-        st.button(
-            label='EN',
-            key='en'
-        )
-    with col2:
-        st.button(
-            label='BG',
-            key='bg'
-        )
-
-################### LANGUAGE #########################
-if st.session_state.en:
-    st.session_state.lang = 'en'
-else:
-    st.session_state.lang = 'bg'
