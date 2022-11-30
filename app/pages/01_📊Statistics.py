@@ -32,13 +32,13 @@ content = util_funcs.load_content()
 stations = st.session_state['df']['station_name'].unique()
 metrics = st.session_state['df']['param_name'].unique()
 
-if 'date_slider' in st.session_state:
+if 'date_slider_mark_circle' in st.session_state:
     st.session_state.update({
         'df_mark_circle':
             util_funcs.show_by_time(
                 st.session_state['df'],
-                st.session_state['date_slider'][0],
-                st.session_state['date_slider'][1]
+                st.session_state['date_slider_mark_circle'][0],
+                st.session_state['date_slider_mark_circle'][1]
             )
     })
 
@@ -62,7 +62,7 @@ with st.form(key='mark_circle'):
             st.session_state['min_max_date_df'][1],
         ),
         format=format,
-        key='date_slider'
+        key='date_slider_mark_circle'
     )
 
     submit_button = st.form_submit_button(
