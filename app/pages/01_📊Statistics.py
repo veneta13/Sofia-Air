@@ -283,7 +283,6 @@ color = alt.Color('param_name:N', scale=scale, title='Metric') # TODO translate 
 brush = alt.selection_interval(encodings=['x'])
 click = alt.selection_multi(encodings=['color'])
 
-# Top panel is scatter plot of temperature vs time
 points = alt.Chart().mark_point().encode(
     alt.X(
         'timest:T',
@@ -301,7 +300,6 @@ points = alt.Chart().mark_point().encode(
     click
 ).interactive()
 
-# Bottom panel is a bar chart of param_name type
 bars = alt.Chart().mark_bar().encode(
     x='count()',
     y=alt.Y(
