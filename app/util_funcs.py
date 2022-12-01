@@ -25,6 +25,15 @@ def load_data():
 
 
 @st.experimental_singleton
+def load_full_data():
+    df = pd.read_csv(
+        'data/Archive_Sofia_stations_processed.csv'
+    )
+    df['timest'] = df['timest'].apply(lambda x: x.split(' ')[0])
+    return df
+
+
+@st.experimental_singleton
 def load_content():
     with open('res/content.json', encoding="utf8") as json_file:
         return json.load(json_file)
