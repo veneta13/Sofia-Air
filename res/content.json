@@ -38,5 +38,9 @@
   "metric_label": {
     "bg": "Показател",
     "en": "Metric"
+  },
+  "count_label": {
+    "bg": "Брой наблюдения",
+    "en": "Count"
   }
 }
