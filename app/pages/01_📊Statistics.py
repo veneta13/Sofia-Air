@@ -11,7 +11,21 @@ st.set_page_config(
     page_icon=':cloud:',
 )
 
-st.session_state.lang = 'bg'
+
+def switch_lang():
+    if 'lang' in st.session_state:
+        if st.session_state.lang == 'bg':
+            st.session_state.lang = 'en'
+        else:
+            st.session_state.lang = 'bg'
+
+
+@st.cache
+def bind_socket(session_state):
+    session_state.lang = 'bg'
+
+
+bind_socket(st.session_state)
 
 st.session_state['df'] = util_funcs.read_data()
 st.session_state['df_full'] = util_funcs.load_full_data()
@@ -43,19 +57,15 @@ with st.sidebar:
     with col1:
         st.button(
             label='EN',
-            key='en'
+            key='en',
+            on_click=switch_lang
         )
     with col2:
         st.button(
             label='BG',
-            key='bg'
+            key='bg',
+            on_click=switch_lang
         )
-
-################### LANGUAGE #########################
-if st.session_state.en:
-    st.session_state.lang = 'en'
-else:
-    st.session_state.lang = 'bg'
 
 ################### UPDATE DATA ######################
 
