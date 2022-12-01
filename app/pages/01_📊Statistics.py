@@ -19,6 +19,7 @@ st.session_state['df_mark_circle'] = st.session_state['df'].head()
 st.session_state['df_mark_area'] = st.session_state['df'].head()
 st.session_state['df_scatter_plot'] = st.session_state['df_full'].head()
 st.session_state['df_full_location'] = st.session_state['df'].head()
+st.session_state['df_multiline'] = st.session_state['df'].head()
 
 min_max_date = util_funcs.min_max_date(st.session_state['df'])
 
@@ -116,6 +117,22 @@ if 'station_selector_full_location' in st.session_state:
                 ),
                 st.session_state['date_slider_full_location'][0],
                 st.session_state['date_slider_full_location'][1]
+            )
+    })
+
+if 'station_selector_multiline' in st.session_state:
+    st.session_state.update({
+        'df_multiline':
+            util_funcs.show_by_metrics(
+                util_funcs.show_by_time(
+                    util_funcs.show_by_location(
+                        st.session_state['df'],
+                        st.session_state['station_selector_multiline']
+                    ),
+                    st.session_state['date_slider_multiline'][0],
+                    st.session_state['date_slider_multiline'][1]
+                ),
+                [st.session_state['metric_selector_multiline']]
             )
     })
 
@@ -339,6 +356,81 @@ with st.form(key='full_location'):
         content['ams_selector'][st.session_state.lang],
         options=stations,
         key='station_selector_full_location'
+    )
+
+    submit_button = st.form_submit_button(
+        content['submit_button'][st.session_state.lang],
+        on_click=(lambda: None)
+    )
+
+################# MULTILINE TOOLTIP  #################
+
+nearest = alt.selection(type='single', nearest=True, on='mouseover', fields=['timest'], empty='none')
+
+line = alt.Chart(st.session_state['df_multiline']).mark_line(interpolate='basis').encode(
+    x=alt.X(
+        'timest:T',
+        title='Date'  # TODO translate label
+    ),
+    y=alt.Y(
+        'level:Q',
+        title='Level',  # TODO translate label
+    ),
+    color=alt.Color('station_name:N', scale=alt.Scale(scheme='magma'))
+)
+
+selectors = alt.Chart(st.session_state['df_multiline']).mark_point().encode(
+    x='timest:T',
+    opacity=alt.value(0),
+).add_selection(
+    nearest
+)
+
+points = line.mark_point().encode(
+    opacity=alt.condition(nearest, alt.value(1), alt.value(0))
+)
+
+text = line.mark_text(align='left', dx=5, dy=-5).encode(
+    text=alt.condition(nearest, 'level:Q', alt.value(' '))
+)
+
+rules = alt.Chart(st.session_state['df_multiline']).mark_rule(color='gray').encode(
+    x='timest:T',
+).transform_filter(
+    nearest
+)
+
+st.altair_chart(
+    alt.layer(
+        line, selectors, points, rules, text
+    ),
+    use_container_width=True
+)
+
+with st.form(key='multiline_plot'):
+    st.slider(
+        content['date_selector'][st.session_state.lang],
+        min_value=st.session_state['min_max_date_df'][0],
+        max_value=st.session_state['min_max_date_df'][1],
+        value=(
+            st.session_state['min_max_date_df'][0],
+            st.session_state['min_max_date_df'][1],
+        ),
+        format=format,
+        key='date_slider_multiline'
+    )
+
+    st.multiselect(
+        content['ams_selector'][st.session_state.lang],
+        options=stations,
+        default=stations[0],
+        key='station_selector_multiline'
+    )
+
+    st.selectbox(
+        content['metric_selector'][st.session_state.lang],
+        options=metrics,
+        key='metric_selector_multiline'
     )
 
     submit_button = st.form_submit_button(
