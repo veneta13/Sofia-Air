@@ -149,9 +149,9 @@ if 'station_selector_multiline' in st.session_state:
 ################ MARK CIRCLE CHART ##################
 st.altair_chart(
     alt.Chart(st.session_state['df_mark_circle']).mark_circle().encode(
-        x=alt.X('timest:O', title='Date'),  # TODO translate title
-        y=alt.Y('param_name:O', title='Metric'),  # TODO translate title
-        size='level:Q',
+        x=alt.X('timest:O', title=content['date_label'][st.session_state.lang]),
+        y=alt.Y('param_name:O', title=content['metric_label'][st.session_state.lang]),
+        size=alt.Size('level:Q', title=content['level_label'][st.session_state.lang]),
         color=alt.Color('level', scale=alt.Scale(scheme='goldred'))
     ).interactive(),
     use_container_width=True
@@ -196,16 +196,17 @@ st.altair_chart(
         alt.X(
             'timest:T',
             axis=alt.Axis(format='%Y-%m-%d', domain=False, tickSize=0),
-            title='Date'  # TODO translate title
+            title=content['date_label'][st.session_state.lang]
         ),
         alt.Y(
             'level:Q',
             stack='center',
+            title=content['level_label'][st.session_state.lang],
             axis=None
         ),
         alt.Color(
             'param_name:N',
-            title='Metric',  # TODO translate title
+            title=content['metric_label'][st.session_state.lang],
             scale=alt.Scale(scheme='rainbow'),
         ),
         opacity=alt.condition(selection, alt.value(1), alt.value(0.2))
@@ -263,13 +264,19 @@ st.altair_chart(
     .encode(
         x=alt.X(
             'timest:T',
-            title='Date'  # TODO translate label
+            title=content['date_label'][st.session_state.lang]
         ),
         y=alt.Y(
             'level:Q',
-            axis=alt.Axis(title='Level')
+            axis=alt.Axis(
+                title=content['level_label'][st.session_state.lang]
+            )
         ),
-        color=alt.Color('level', scale=alt.Scale(scheme='yelloworangered'))
+        color=alt.Color(
+            'level',
+            scale=alt.Scale(scheme='yelloworangered'),
+            title=content['level_label'][st.session_state.lang]
+        )
     ).interactive(),
     use_container_width=True
 )
@@ -306,21 +313,24 @@ with st.form(key='scatter_plot'):
 
 ############### FULL LOCATION PLOTTING ###############
 scale = alt.Scale(domain=metrics, scheme='sinebow')
-color = alt.Color('param_name:N', scale=scale, title='Metric')  # TODO translate label
+color = alt.Color('param_name:N', scale=scale, title=content['metric_label'][st.session_state.lang])
 brush = alt.selection_interval(encodings=['x'])
 click = alt.selection_multi(encodings=['color'])
 
 points = alt.Chart().mark_point().encode(
     alt.X(
         'timest:T',
-        title='Date'  # TODO translate label
+        title=content['date_label'][st.session_state.lang]
     ),
     alt.Y(
         'level:Q',
-        title='Level',  # TODO translate label
+        title=content['level_label'][st.session_state.lang]
     ),
     color=alt.condition(brush, color, alt.value('lightgray')),
-    size=alt.Size('level:Q', title='level')  # TODO translate label
+    size=alt.Size(
+        'level:Q',
+        title=content['level_label'][st.session_state.lang]
+    )
 ).add_selection(
     brush
 ).transform_filter(
@@ -328,10 +338,13 @@ points = alt.Chart().mark_point().encode(
 ).interactive()
 
 bars = alt.Chart().mark_bar().encode(
-    x='count()',
+    x=alt.X(
+        'count()',
+        title=content['count_label'][st.session_state.lang]
+    ),
     y=alt.Y(
         'param_name:N',
-        title='Metrics'  # TODO translate label
+        title=content['metric_label'][st.session_state.lang]
     ),
     color=alt.condition(click, color, alt.value('lightgray')),
 ).transform_filter(
@@ -380,13 +393,16 @@ nearest = alt.selection(type='single', nearest=True, on='mouseover', fields=['ti
 line = alt.Chart(st.session_state['df_multiline']).mark_line(interpolate='basis').encode(
     x=alt.X(
         'timest:T',
-        title='Date'  # TODO translate label
+        title=content['date_label'][st.session_state.lang]
     ),
     y=alt.Y(
         'level:Q',
-        title='Level',  # TODO translate label
+        title=content['level_label'][st.session_state.lang]
     ),
-    color=alt.Color('station_name:N', scale=alt.Scale(scheme='magma'))
+    color=alt.Color(
+        'station_name:N',
+        scale=alt.Scale(scheme='magma'),
+        title=content['station_label'][st.session_state.lang])
 )
 
 selectors = alt.Chart(st.session_state['df_multiline']).mark_point().encode(
