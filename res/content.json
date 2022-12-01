@@ -22,5 +22,21 @@
   "click_message": {
     "bg": "Покажи точна стойност",
     "en": "Show more information"
+  },
+  "date_label": {
+    "bg": "Дата",
+    "en": "Date"
+  },
+  "station_label": {
+    "bg": "Станция",
+    "en": "Station"
+  },
+  "level_label": {
+    "bg": "Ниво",
+    "en": "Level"
+  },
+  "metric_label": {
+    "bg": "Показател",
+    "en": "Metric"
   }
 }
