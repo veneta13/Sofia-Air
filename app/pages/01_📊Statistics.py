@@ -110,7 +110,8 @@ st.altair_chart(
     alt.Chart(st.session_state['df_mark_circle']).mark_circle().encode(
         x=alt.X('timest:O', title='Date'),  # TODO translate title
         y=alt.Y('param_name:O', title='Metric'),  # TODO translate title
-        size='level:Q'
+        size='level:Q',
+        color=alt.Color('level', scale=alt.Scale(scheme='goldred'))
     ).interactive(),
     use_container_width=True
 )
@@ -164,7 +165,7 @@ st.altair_chart(
         alt.Color(
             'param_name:N',
             title='Metric',  # TODO translate title
-            scale=alt.Scale(scheme='dark2'),
+            scale=alt.Scale(scheme='rainbow'),
         ),
         opacity=alt.condition(selection, alt.value(1), alt.value(0.2))
     ).interactive().add_selection(
@@ -223,7 +224,8 @@ st.altair_chart(
         y=alt.Y(
             'level:Q',
             axis=alt.Axis(title='Level')
-        )
+        ),
+        color=alt.Color('level', scale=alt.Scale(scheme='yelloworangered'))
     ).interactive(),
     use_container_width=True
 )
