@@ -14,8 +14,10 @@ st.set_page_config(
 st.session_state.lang = 'bg'
 
 st.session_state['df'] = util_funcs.read_data()
-st.session_state['df_mark_circle'] = st.session_state['df']
-st.session_state['df_mark_area'] = st.session_state['df']
+st.session_state['df_full'] = util_funcs.load_full_data()
+st.session_state['df_mark_circle'] = st.session_state['df'].head()
+st.session_state['df_mark_area'] = st.session_state['df'].head()
+st.session_state['df_scatter_plot'] = st.session_state['df_full'].head()
 
 min_max_date = util_funcs.min_max_date(st.session_state['df'])
 
@@ -87,6 +89,22 @@ if 'date_slider_mark_area' in st.session_state:
             )
     })
 
+if 'date_slider_scatter_plot' in st.session_state:
+    st.session_state.update({
+        'df_scatter_plot':
+            util_funcs.show_by_metrics(
+                util_funcs.show_by_time(
+                    util_funcs.show_by_location(
+                        st.session_state['df'],
+                        st.session_state['station_selector_scatter_plot']
+                    ),
+                    st.session_state['date_slider_scatter_plot'][0],
+                    st.session_state['date_slider_scatter_plot'][1]
+                ),
+                [st.session_state['metric_selector_scatter_plot']]
+            )
+    })
+
 ################ MARK CIRCLE CHART ##################
 st.altair_chart(
     alt.Chart(st.session_state['df_mark_circle']).mark_circle().encode(
@@ -129,6 +147,8 @@ with st.form(key='mark_circle'):
     )
 
 ################# MARK AREA CHART ###################
+selection = alt.selection_multi(fields=['param_name'], bind='legend')
+
 st.altair_chart(
     alt.Chart(st.session_state['df_mark_area']).mark_area().encode(
         alt.X(
@@ -144,9 +164,12 @@ st.altair_chart(
         alt.Color(
             'param_name:N',
             title='Metric',  # TODO translate title
-            scale=alt.Scale(scheme='category20b')
-        )
-    ).interactive(),
+            scale=alt.Scale(scheme='dark2'),
+        ),
+        opacity=alt.condition(selection, alt.value(1), alt.value(0.2))
+    ).interactive().add_selection(
+        selection
+    ),
     use_container_width=True
 )
 
@@ -154,7 +177,7 @@ with st.form(key='mark_area'):
     st.slider(
         content['date_selector'][st.session_state.lang],
         min_value=st.session_state['min_max_date_df'][0],
-        max_value=st.session_state['min_max_date_df'][1],
+        max_value=st.session_state['min_max_date_df'][0],
         value=(
             st.session_state['min_max_date_df'][0],
             st.session_state['min_max_date_df'][1],
@@ -174,6 +197,60 @@ with st.form(key='mark_area'):
         options=metrics,
         default=metrics,
         key='metric_selector_mark_area'
+    )
+
+    submit_button = st.form_submit_button(
+        content['submit_button'][st.session_state.lang],
+        on_click=(lambda: None)
+    )
+
+############ SCATTER PLOT - ROLLING MEAN #############
+
+st.altair_chart(
+    alt.Chart(st.session_state['df_scatter_plot']).mark_line(
+        color='red',
+        size=3
+    ).transform_window(
+        rolling_mean='mean(level)',
+        frame=[-15, 15]
+    ).encode(
+        x='timest:T',
+        y='rolling_mean:Q'
+    ).interactive() +
+    alt.Chart(st.session_state['df_scatter_plot']).mark_point()
+    .encode(
+        x='timest:T',
+        y=alt.Y(
+            'level:Q',
+            axis=alt.Axis(title='Level')
+        )
+    ).interactive(),
+    use_container_width=True
+)
+
+with st.form(key='scatter_plot'):
+    st.slider(
+        content['date_selector'][st.session_state.lang],
+        min_value=st.session_state['min_max_date_df'][0],
+        max_value=st.session_state['min_max_date_df'][1],
+        value=(
+            st.session_state['min_max_date_df'][0],
+            st.session_state['min_max_date_df'][1],
+        ),
+        format=format,
+        key='date_slider_scatter_plot'
+    )
+
+    st.selectbox(
+        content['ams_selector'][st.session_state.lang],
+        options=stations,
+        key='station_selector_scatter_plot'
+    )
+
+    st.selectbox(
+        content['metric_selector'][st.session_state.lang],
+        options=metrics,
+        key='metric_selector_scatter_plot'
     )
 
     submit_button = st.form_submit_button(
