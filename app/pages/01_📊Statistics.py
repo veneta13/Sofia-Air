@@ -18,6 +18,7 @@ st.session_state['df_full'] = util_funcs.load_full_data()
 st.session_state['df_mark_circle'] = st.session_state['df'].head()
 st.session_state['df_mark_area'] = st.session_state['df'].head()
 st.session_state['df_scatter_plot'] = st.session_state['df_full'].head()
+st.session_state['df_full_location'] = st.session_state['df'].head()
 
 min_max_date = util_funcs.min_max_date(st.session_state['df'])
 
@@ -102,6 +103,19 @@ if 'date_slider_scatter_plot' in st.session_state:
                     st.session_state['date_slider_scatter_plot'][1]
                 ),
                 [st.session_state['metric_selector_scatter_plot']]
+            )
+    })
+
+if 'station_selector_full_location' in st.session_state:
+    st.session_state.update({
+        'df_full_location':
+            util_funcs.show_by_time(
+                util_funcs.show_by_location(
+                    st.session_state['df'],
+                    st.session_state['station_selector_full_location']
+                ),
+                st.session_state['date_slider_full_location'][0],
+                st.session_state['date_slider_full_location'][1]
             )
     })
 
@@ -220,7 +234,10 @@ st.altair_chart(
     ).interactive() +
     alt.Chart(st.session_state['df_scatter_plot']).mark_point()
     .encode(
-        x='timest:T',
+        x=alt.X(
+            'timest:T',
+            title='Date' # TODO translate label
+        ),
         y=alt.Y(
             'level:Q',
             axis=alt.Axis(title='Level')
@@ -253,6 +270,77 @@ with st.form(key='scatter_plot'):
         content['metric_selector'][st.session_state.lang],
         options=metrics,
         key='metric_selector_scatter_plot'
+    )
+
+    submit_button = st.form_submit_button(
+        content['submit_button'][st.session_state.lang],
+        on_click=(lambda: None)
+    )
+
+############### FULL LOCATION PLOTTING ###############
+scale = alt.Scale(domain=metrics, scheme='sinebow')
+color = alt.Color('param_name:N', scale=scale, title='Metric') # TODO translate label
+brush = alt.selection_interval(encodings=['x'])
+click = alt.selection_multi(encodings=['color'])
+
+# Top panel is scatter plot of temperature vs time
+points = alt.Chart().mark_point().encode(
+    alt.X(
+        'timest:T',
+        title='Date' # TODO translate label
+    ),
+    alt.Y(
+        'level:Q',
+        title='Level',  # TODO translate label
+    ),
+    color=alt.condition(brush, color, alt.value('lightgray')),
+    size=alt.Size('level:Q', title='level') # TODO translate label
+).add_selection(
+    brush
+).transform_filter(
+    click
+).interactive()
+
+# Bottom panel is a bar chart of param_name type
+bars = alt.Chart().mark_bar().encode(
+    x='count()',
+    y=alt.Y(
+        'param_name:N',
+        title = 'Metrics' # TODO translate label
+    ),
+    color=alt.condition(click, color, alt.value('lightgray')),
+).transform_filter(
+    brush
+).add_selection(
+    click
+).interactive()
+
+st.altair_chart(
+    alt.vconcat(
+        points,
+        bars,
+        data=st.session_state['df_full_location']
+    ),
+    use_container_width=True
+)
+
+with st.form(key='full_location'):
+    st.slider(
+        content['date_selector'][st.session_state.lang],
+        min_value=st.session_state['min_max_date_df'][0],
+        max_value=st.session_state['min_max_date_df'][1],
+        value=(
+            st.session_state['min_max_date_df'][0],
+            st.session_state['min_max_date_df'][1],
+        ),
+        format=format,
+        key='date_slider_full_location'
+    )
+
+    st.selectbox(
+        content['ams_selector'][st.session_state.lang],
+        options=stations,
+        key='station_selector_full_location'
     )
 
     submit_button = st.form_submit_button(
