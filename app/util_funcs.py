@@ -9,8 +9,7 @@ import streamlit as st
 @st.experimental_singleton
 def load_data():
     df = pd.read_csv(
-        'data/Archive_Sofia_stations_processed.csv',
-        nrows=10000
+        'data/Archive_Sofia_stations_processed.csv'
     )
     df['timest'] = df['timest'].apply(lambda x: x.split(' ')[0])
     grouped_df = df.groupby(
