@@ -236,7 +236,7 @@ st.altair_chart(
     .encode(
         x=alt.X(
             'timest:T',
-            title='Date' # TODO translate label
+            title='Date'  # TODO translate label
         ),
         y=alt.Y(
             'level:Q',
@@ -279,21 +279,21 @@ with st.form(key='scatter_plot'):
 
 ############### FULL LOCATION PLOTTING ###############
 scale = alt.Scale(domain=metrics, scheme='sinebow')
-color = alt.Color('param_name:N', scale=scale, title='Metric') # TODO translate label
+color = alt.Color('param_name:N', scale=scale, title='Metric')  # TODO translate label
 brush = alt.selection_interval(encodings=['x'])
 click = alt.selection_multi(encodings=['color'])
 
 points = alt.Chart().mark_point().encode(
     alt.X(
         'timest:T',
-        title='Date' # TODO translate label
+        title='Date'  # TODO translate label
     ),
     alt.Y(
         'level:Q',
         title='Level',  # TODO translate label
     ),
     color=alt.condition(brush, color, alt.value('lightgray')),
-    size=alt.Size('level:Q', title='level') # TODO translate label
+    size=alt.Size('level:Q', title='level')  # TODO translate label
 ).add_selection(
     brush
 ).transform_filter(
@@ -304,7 +304,7 @@ bars = alt.Chart().mark_bar().encode(
     x='count()',
     y=alt.Y(
         'param_name:N',
-        title = 'Metrics' # TODO translate label
+        title='Metrics'  # TODO translate label
     ),
     color=alt.condition(click, color, alt.value('lightgray')),
 ).transform_filter(
