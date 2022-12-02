@@ -56,6 +56,8 @@ st.session_state['map'] = folium.Map(
 
 st.title(content['page_title'][st.session_state.lang])
 
+##################### MAP ###########################
+
 if 'station_selector' not in st.session_state:
     st_folium(st.session_state['map'], width=1100)
 else:
@@ -90,23 +92,6 @@ else:
 
     st_folium(st.session_state['map'], width=1100)
 
-with st.sidebar:
-    col1, col2 = st.columns([1, 3])
-    with col1:
-        st.button(
-            label='EN',
-            key='en',
-            on_click=switch_lang,
-            args=['en']
-        )
-    with col2:
-        st.button(
-            label='BG',
-            key='bg',
-            on_click=switch_lang,
-            args=['bg']
-        )
-
 with st.form(key='map_properties'):
     st.multiselect(
         content['ams_selector'][st.session_state.lang],
@@ -134,3 +119,21 @@ with st.form(key='map_properties'):
         content['submit_button'][st.session_state.lang],
         on_click=(lambda: None)
     )
+
+################### SIDEBAR #########################
+with st.sidebar:
+    col1, col2 = st.columns([1, 3])
+    with col1:
+        st.button(
+            label='EN',
+            key='en',
+            on_click=switch_lang,
+            args=['en']
+        )
+    with col2:
+        st.button(
+            label='BG',
+            key='bg',
+            on_click=switch_lang,
+            args=['bg']
+        )
