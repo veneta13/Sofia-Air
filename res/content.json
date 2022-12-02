@@ -42,5 +42,13 @@
   "count_label": {
     "bg": "Брой наблюдения",
     "en": "Count"
+  },
+  "map_subheading": {
+    "bg": "Карта на замерванията по с цветови индикатор за спазване на нормата",
+    "en": "Map with pollution color indicators"
+  },
+  "map_explaination": {
+    "bg": "Изберете дата, станции и показател, който да се визуализизира",
+    "en": "Select date, locations and metric to show"
   }
 }

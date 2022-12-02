@@ -54,7 +54,11 @@ st.session_state['map'] = folium.Map(
     zoom_start=13
 )
 
+#################### TITLE ##########################
 st.title(content['page_title'][st.session_state.lang])
+
+################## SUBHEADING #######################
+st.subheader(content['map_subheading'][st.session_state.lang])
 
 ##################### MAP ###########################
 
@@ -92,6 +96,10 @@ else:
 
     st_folium(st.session_state['map'], width=1100)
 
+################## SUBHEADING #######################
+st.write(content['map_explaination'][st.session_state.lang])
+
+###################### FORM #########################
 with st.form(key='map_properties'):
     st.multiselect(
         content['ams_selector'][st.session_state.lang],
