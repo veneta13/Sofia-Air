@@ -12,12 +12,12 @@ st.set_page_config(
 )
 
 
-def switch_lang():
+def switch_lang(lang):
     if 'lang' in st.session_state:
-        if st.session_state.lang == 'bg':
-            st.session_state.lang = 'en'
-        else:
+        if lang == 'bg':
             st.session_state.lang = 'bg'
+        else:
+            st.session_state.lang = 'en'
 
 
 @st.cache
@@ -71,13 +71,15 @@ with st.sidebar:
         st.button(
             label='EN',
             key='en',
-            on_click=switch_lang
+            on_click=switch_lang,
+            args=['en']
         )
     with col2:
         st.button(
             label='BG',
             key='bg',
-            on_click=switch_lang
+            on_click=switch_lang,
+            args=['bg']
         )
 
 ################### UPDATE DATA ######################
