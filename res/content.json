@@ -1,7 +1,11 @@
 {
-  "page_title": {
+  "main_title": {
     "bg": "Sofia Air",
     "en": "Sofia Air"
+  },
+  "statistics_title": {
+    "bg": "Диаграми",
+    "en": "Charts"
   },
   "ams_selector": {
     "bg": "Изберете станции, за които да се показва замерването",

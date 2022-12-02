@@ -50,6 +50,9 @@ st.session_state['min_max_date_df'].append(
 
 content = util_funcs.load_content()
 
+#################### TITLE ##########################
+st.title(content['statistics_title'][st.session_state.lang])
+
 tab_bubble, tab_area, tab_scatterplot, tab_multiline, tab_combined = st.tabs([
     content['bubble_chart_label'][st.session_state.lang],
     content['area_chart_label'][st.session_state.lang],

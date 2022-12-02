@@ -57,7 +57,7 @@ st.session_state['map'] = folium.Map(
 )
 
 #################### TITLE ##########################
-st.title(content['page_title'][st.session_state.lang])
+st.title(content['main_title'][st.session_state.lang])
 
 ################## SUBHEADING #######################
 st.subheader(content['map_subheading'][st.session_state.lang])
