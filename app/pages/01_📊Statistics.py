@@ -26,6 +26,8 @@ def bind_socket(session_state):
 
 
 bind_socket(st.session_state)
+if 'lang' not in st.session_state:
+    st.session_state.lang = 'bg'
 
 st.session_state['df'] = util_funcs.read_data()
 st.session_state['df_full'] = util_funcs.load_full_data()

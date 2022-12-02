@@ -27,6 +27,8 @@ def bind_socket(session_state):
 
 
 bind_socket(st.session_state)
+if 'lang' not in st.session_state:
+    st.session_state.lang = 'bg'
 
 st.session_state['df'] = util_funcs.read_data()
 min_max_date = util_funcs.min_max_date(st.session_state['df'])
