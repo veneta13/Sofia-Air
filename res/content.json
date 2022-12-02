@@ -50,5 +50,25 @@
   "map_explaination": {
     "bg": "Изберете дата, станции и показател, който да се визуализизира",
     "en": "Select date, locations and metric to show"
+  },
+  "bubble_chart_label": {
+    "bg": "Мехурчеста диаграма",
+    "en": "Bubble chart"
+  },
+  "multiline_chart_label": {
+    "bg": "Линейна диаграма с наслагване с маркери",
+    "en": "Spline graph"
+  },
+  "area_chart_label": {
+    "bg": "Площна диаграма",
+    "en": "Area chart"
+  },
+  "scatterplot_label": {
+    "bg": "Точкова диаграма със средно",
+    "en": "Scatterplot with running mean"
+  },
+  "combined_chart_label": {
+    "bg": "Комбинирана диаграма",
+    "en": "Combined chart"
   }
 }
