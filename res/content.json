@@ -110,5 +110,13 @@
   "reference_subheading": {
     "bg": "Референтни стойности използвани при визуализацията",
     "en": "Reference values used for visualization"
+  },
+  "reference_notes_subheading": {
+    "bg": "Забележки",
+    "en": "Notes"
+  },
+  "reference_notes_overall": {
+    "bg": "С цел по-добра визуализация, за посочените метрики, в някои диаграми, са използвани осреднените стойности за денонощие: \n - Озон (период на осредняване - 1 час) \n - Азотен оксид (период на осредняване - 1 година) \n - Азотен диоксид (период на осредняване - 1 година) \n - Бензен (период на осредняване - 1 година) \n - Въглероден оксид (период на осредняване - 8 часа) ",
+    "en": "To achieve better data visualization quality, for the following values the twenty-four hour mean is used in some charts: \n - Ozone (averaging period - 1 hour) \n - Nitrogen oxide (averaging period - 1 year) \n - Nitrogen dioxide (averaging period - 1 year) \n - Benzene (averaging period - 1 year) \n - Carbon monoxide (averaging period - 8 hours)"
   }
 }

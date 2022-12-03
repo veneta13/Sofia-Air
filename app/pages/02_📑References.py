@@ -71,6 +71,11 @@ col23.metric(
     str(levels["NO"]) + " µg/m³"
 )
 
+##################### NOTES #########################
+st.markdown('##')
+st.subheader(content['reference_notes_subheading'][st.session_state.lang])
+st.markdown(content['reference_notes_overall'][st.session_state.lang])
+
 ################### SIDEBAR #########################
 with st.sidebar:
     col1, col2 = st.columns([1, 3])
