@@ -7,6 +7,10 @@
     "bg": "Диаграми",
     "en": "Charts"
   },
+  "reference_title": {
+    "bg": "Референтни стойности",
+    "en": "Reference values"
+  },
   "ams_selector": {
     "bg": "Изберете станции, за които да се показва замерването",
     "en": "Select AMS stations"
@@ -102,5 +106,9 @@
     "NO_label": {
     "bg": "Азотен оксид",
     "en": "Nitrogen oxide"
+  },
+  "reference_subheading": {
+    "bg": "Референтни стойности използвани при визуализацията",
+    "en": "Reference values used for visualization"
   }
 }

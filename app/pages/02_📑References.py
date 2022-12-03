@@ -30,6 +30,12 @@ if 'lang' not in st.session_state:
 content = util_funcs.load_content()
 levels = util_funcs.load_levels()
 
+#################### TITLE ##########################
+st.title(content['reference_title'][st.session_state.lang])
+
+################## SUBHEADING #######################
+st.subheader(content['reference_subheading'][st.session_state.lang])
+
 ################### METRICS #########################
 col11, col12, col13, col14 = st.columns(4)
 
