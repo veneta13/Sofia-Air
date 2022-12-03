@@ -74,5 +74,33 @@
   "combined_chart_label": {
     "bg": "Комбинирана диаграма",
     "en": "Combined chart"
+  },
+  "particulate_matter_label": {
+    "bg": "Фини прахови частици",
+    "en": "Particulate matter"
+  },
+  "03_label": {
+    "bg": "Озон",
+    "en": "Ozone"
+  },
+  "SO2_label": {
+    "bg": "Серен диоксид",
+    "en": "Sulfur dioxide"
+  },
+  "NO2_label": {
+    "bg": "Азотен диоксид",
+    "en": "Nitrogen dioxide"
+  },
+  "CO_label": {
+    "bg": "Въглероден оксид",
+    "en": "Carbon monoxide"
+  },
+    "C6H6_label": {
+    "bg": "Бензен",
+    "en": "Benzene"
+  },
+    "NO_label": {
+    "bg": "Азотен оксид",
+    "en": "Nitrogen oxide"
   }
 }
